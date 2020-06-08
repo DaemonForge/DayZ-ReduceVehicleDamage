@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 modded class ExpansionHelicopterScript
 {
 	override void EOnContact( IEntity other, Contact extra ) 
