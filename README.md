@@ -12,5 +12,8 @@ There is a config file that will be created on first start that allows you to mo
     "mindmg": 1350,        //Minimum Damage vehicles would have to take to received damage
     "subtractmindmg": 1,       //1 Enabled/0 Disabled If enabled it will subtract the minimum damage from the total damage
     "nodmgifoff": 0   // 1 Enabled/0 Disabled If enabled the Vehicle will not take damage if the Vehicle is off
+    "helidmgModifier": 0.7,   //Damage Modifier for Helis
+    "helimindmg": 1300,       //Minimum Damage Helis would have to take to received damage
+	"debugLogs": 0 // 1 Enabled/0 Disabled This is for debugging the mod, I'd highly recommend disabling this always
 }
 ```
