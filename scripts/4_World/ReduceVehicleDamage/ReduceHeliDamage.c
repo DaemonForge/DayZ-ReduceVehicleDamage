@@ -2,7 +2,7 @@ modded class ExpansionHelicopterScript
 {
 	override void EOnContact( IEntity other, Contact extra ) 
 	{
-		if ( IsMissionHost() && extra.Impulse > 0)
+		if ( IsMissionHost() && m_dmgContactCoef > 0 && extra.Impulse > 0)
 		{
 
 		        float rvd_dmgModifier = ReduceVehicleDamageSettings.Get().helidmgModifier;
