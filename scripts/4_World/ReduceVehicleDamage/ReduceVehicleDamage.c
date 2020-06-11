@@ -41,4 +41,17 @@ modded class CarScript
 		}
 		super.OnContact(zoneName, localPos, other, data);
 	}
+
+	override void Explode( int damageType, string ammoType = "" )
+	{
+		if ( GetGame().IsServer() )
+		{
+			bool rvd_noexplodeifoff = ReduceVehicleDamageSettings.Get().noexplodeifoff;
+			if (!EngineIsOn() && rvd_noexplodeifoff)
+			{
+				return;
+			}
+		}
+		super.Explode(damageType, ammoType);
+	}
 }
