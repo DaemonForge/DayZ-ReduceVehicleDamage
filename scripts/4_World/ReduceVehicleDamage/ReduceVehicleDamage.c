@@ -40,6 +40,18 @@ modded class CarScript
 			if ( rvd_debug && dmg > 10 ) { Print("[ReduceVehicleDamage] Finished CarScript OnContact - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
 		}
 		super.OnContact(zoneName, localPos, other, data);
+                if ( GetGame().IsServer() && zoneName != "" && m_dmgContactCoef > 0 && data.Impulse > 0 && IsRuined() )
+		{	
+		        float rvd_post_perventcarruined = ReduceVehicleDamageSettings.Get().perventcarruined;
+                        float post_dmg = data.Impulse * m_dmgContactCoef;
+                        if ( post_dmg >= 750 && rvd_post_perventcarruined ){
+                              float tenPercent = GetMaxHealth() * 0.1;
+                              AddHealth( tenPercent );
+                              // Might need this 
+                              //GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).remove(GetGame().ObjectDelete, this)
+                        }
+                }
+		        
 	}
 
 	override void Explode( int damageType, string ammoType = "" )
