@@ -5,8 +5,8 @@ modded class ExpansionHelicopterScript
 		if ( IsMissionHost() && m_dmgContactCoef > 0 && extra.Impulse > 0)
 		{
 
-		        float rvd_dmgModifier = ReduceVehicleDamageSettings.Get().helidmgModifier;
-		        float rvd_mindmg = ReduceVehicleDamageSettings.Get().helimindmg;
+		        float rvd_dmgModifier = ReduceVehicleDamageSettings.Get().heliDmgModifier;
+		        float rvd_mindmg = ReduceVehicleDamageSettings.Get().heliMinDmg;
 		        bool rvd_subtractmindmg = ReduceVehicleDamageSettings.Get().subtractmindmg;
 		        bool rvd_nodmgoff = ReduceVehicleDamageSettings.Get().nodmgifoff;
 		        bool rvd_debug = ReduceVehicleDamageSettings.Get().debugLogs;
