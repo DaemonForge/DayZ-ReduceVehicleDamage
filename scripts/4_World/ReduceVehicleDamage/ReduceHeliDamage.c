@@ -39,6 +39,22 @@ modded class ExpansionHelicopterScript
 				return;
 			}
 			extra.Impulse = dmg / m_dmgContactCoef;
+			bool rvd_dmgBeforeExplode = ReduceVehicleDamageSettings.Get().dmgBeforeExplode;
+			
+			if ( rvd_dmgBeforeExplode && extra.Impulse > m_BodyMass * 11 * 2 && GetVelocity(this).Length() > 2.5)
+			{
+				AddHealth( "", "Health", -dmg);
+				float newHealth = GetHealth("", "");
+				float fivePercent = GetMaxHealth() * 0.05;
+				if ( newHealth > fivePercent )
+				{
+					if ( rvd_debug){ Print("[ReduceVehicleDamage] Finished ExpansionHelicopterScript EOnContact - Vechile took " + dmg + " damage - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + extra.Impulse); }
+					return;
+				}else{
+					if ( rvd_debug){ Print("[ReduceVehicleDamage] ExpansionHelicopterScript EOnContact - Vechile took " + dmg + " damage continuing to super - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + extra.Impulse); }
+				}
+			}
+			
 			if ( rvd_debug && dmg > 10){ Print("[ReduceVehicleDamage] Finished ExpansionHelicopterScript EOnContact - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + extra.Impulse); }
 		}
 		
