@@ -7,16 +7,18 @@ class ReduceVehicleDamageSettings
     private static ref ReduceVehicleDamageSettings settings;
 
 	//Default Values
-    float dmgModifier = 0.8;
+        float dmgModifier = 0.8;
 	float mindmg = 1350;
 	bool subtractmindmg = true;
 	bool nodmgifoff = false;
+	bool perventcarruined = false;
 	
-    float helidmgModifier = 0.7;
+        float helidmgModifier = 0.7;
 	float helimindmg = 1300;
+	bool noexplodeifoff = false;
 	
 	bool debugLogs = false;
-	
+
 	
     static ref ReduceVehicleDamageSettings Get()
     {
@@ -31,12 +33,14 @@ class ReduceVehicleDamageSettings
         {
             JsonFileLoader<ReduceVehicleDamageSettings>.JsonLoadFile(ReduceVehicleDamagePATH, data);
             initialized = true;
-			if (!data.helidmgModifier){
-				data.helidmgModifier = 0.7;
-				data.helimindmg = 1300;
-				data.debugLogs = false;
-                JsonFileLoader<ReduceVehicleDamageSettings>.JsonSaveFile(ReduceVehicleDamagePATH, data);
-			}
+		if (!data.helidmgModifier){ //Update settings file with now settings
+			data.perventcarruined = false;
+			data.helidmgModifier = 0.7;
+		        data.helimindmg = 1300;
+			data.noexplodeifoff = false;
+			data.debugLogs = false;
+             		JsonFileLoader<ReduceVehicleDamageSettings>.JsonSaveFile(ReduceVehicleDamagePATH, data);
+		}
         }
         else //If config file doesn't exsit create the file
         {
