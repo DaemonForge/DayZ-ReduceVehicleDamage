@@ -35,8 +35,8 @@ class ReduceVehicleDamageSettings
             initialized = true;
 		if (!data.helidmgModifier){ //Update settings file with now settings
 			data.perventcarruined = false;
-			data.helidmgModifier = 0.7;
-		        data.helimindmg = 1300;
+			data.helidmgModifier = data.dmgModifier;
+		        data.helimindmg = data.mindmg;
 			data.noexplodeifoff = false;
 			data.debugLogs = false;
              		JsonFileLoader<ReduceVehicleDamageSettings>.JsonSaveFile(ReduceVehicleDamagePATH, data);
