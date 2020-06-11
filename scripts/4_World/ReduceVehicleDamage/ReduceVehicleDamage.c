@@ -96,8 +96,8 @@ modded class CarScript
 		        float rvd_post_perventcarruined = ReduceVehicleDamageSettings.Get().perventCarRuined;
                         float post_dmg = data.Impulse * m_dmgContactCoef;
                         if ( post_dmg >= 750 && rvd_post_perventcarruined ){
-                              float tenPercent = GetMaxHealth() * 0.1;
-                              AddHealth( tenPercent );
+                              float fivePercent = GetMaxHealth() * 0.05;
+                              AddHealth( "", "", fivePercent );
                               // Might need this 
                               //GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).Remove(GetGame().ObjectDelete, this)
                         }
