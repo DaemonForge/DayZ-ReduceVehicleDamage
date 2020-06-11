@@ -3,6 +3,8 @@ modded class CarScript
 	override void OnContact( string zoneName, vector localPos, IEntity other, Contact data )
 	{
 		bool addedGodMod = false;
+		float dmg = data.Impulse * m_dmgContactCoef;
+		float rvd_orgdmg = dmg;
 		if ( GetGame().IsServer() && zoneName != "" && m_dmgContactCoef > 0 && data.Impulse > 0 )
 		{	
 		        float rvd_dmgModifier = ReduceVehicleDamageSettings.Get().dmgModifier;
@@ -11,12 +13,10 @@ modded class CarScript
 		        bool rvd_nodmgoff = ReduceVehicleDamageSettings.Get().nodmgifoff;
 			
 			bool rvd_protectPlayerFromDmg = ReduceVehicleDamageSettings.Get().protectPlayerFromDmg;
-			bool rvd_addPlayerShock = ReduceVehicleDamageSettings.Get().addPlayerShock;
 		        bool rvd_debug = ReduceVehicleDamageSettings.Get().debugLogs;
 
 			if ( rvd_debug && dmg > 10 ){ Print("[ReduceVehicleDamage] Called CarScript OnContact - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
-			float dmg = data.Impulse * m_dmgContactCoef;
-			float rvd_orgdmg = dmg;
+
 			if ( dmg < rvd_mindmg){
 				if( rvd_debug && dmg > 10 ){ Print("[ReduceVehicleDamage] Finished CarScript OnContact - Damage is less than min - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
 				return;
@@ -60,6 +60,9 @@ modded class CarScript
 		}
 		super.OnContact(zoneName, localPos, other, data);
 		if ( addedGodMod ) { //Remove God mod from players
+			bool rvd_post_addPlayerShock = ReduceVehicleDamageSettings.Get().addPlayerShock;
+		        float rvd_post_dmgModifier = ReduceVehicleDamageSettings.Get().dmgModifier;
+		        bool rvd_post_subtractmindmg = ReduceVehicleDamageSettings.Get().subtractmindmg;
 			for( int i =0; i < CrewSize(); i++ )
 			{
 				Human crew = CrewMember( i );
@@ -70,10 +73,15 @@ modded class CarScript
 				if ( Class.CastTo(player, crew ) )
 				{
 					player.SetAllowDamage(true);
-					if ( rvd_addPlayerShock )
+					if ( rvd_post_addPlayerShock ) //Add shock to players so they become unconsius 
 					{
 						//deal shock to player
-						float shockTemp = Math.InverseLerp(750 / rvd_dmgModifier, 3000 / rvd_dmgModifier, dmg);
+						float shockdmg = dmg;
+						if ( !rvd_post_subtractmindmg )
+						{
+							shockdmg = rvd_orgdmg;
+						}
+						float shockTemp = Math.InverseLerp(750 / rvd_post_dmgModifier, 3000 / rvd_post_dmgModifier, shockdmg);
 						float shock = Math.Lerp( 50, 100, shockTemp );
 						player.AddHealth("", "Shock", -shock );
 					}
