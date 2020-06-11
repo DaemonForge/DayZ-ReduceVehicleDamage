@@ -42,7 +42,7 @@ modded class CarScript
 		super.OnContact(zoneName, localPos, other, data);
                 if ( GetGame().IsServer() && zoneName != "" && m_dmgContactCoef > 0 && data.Impulse > 0 && IsRuined() )
 		{	
-		        float rvd_post_perventcarruined = ReduceVehicleDamageSettings.Get().perventcarruined;
+		        float rvd_post_perventcarruined = ReduceVehicleDamageSettings.Get().perventCarRuined;
                         float post_dmg = data.Impulse * m_dmgContactCoef;
                         if ( post_dmg >= 750 && rvd_post_perventcarruined ){
                               float tenPercent = GetMaxHealth() * 0.1;
@@ -58,7 +58,7 @@ modded class CarScript
 	{
 		if ( GetGame().IsServer() )
 		{
-			bool rvd_noexplodeifoff = ReduceVehicleDamageSettings.Get().noexplodeifoff;
+			bool rvd_noexplodeifoff = ReduceVehicleDamageSettings.Get().noExplodeIfOff;
 			if (!EngineIsOn() && rvd_noexplodeifoff)
 			{
 				return;
