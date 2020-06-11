@@ -63,6 +63,16 @@ modded class CarScript
 			bool rvd_post_addPlayerShock = ReduceVehicleDamageSettings.Get().addPlayerShock;
 		        float rvd_post_dmgModifier = ReduceVehicleDamageSettings.Get().dmgModifier;
 		        bool rvd_post_subtractmindmg = ReduceVehicleDamageSettings.Get().subtractmindmg;
+			
+			//deal shock to player
+			float shockdmg = dmg;
+			if ( !rvd_post_subtractmindmg )
+			{
+				shockdmg = rvd_orgdmg;
+			}
+			float shockTemp = Math.InverseLerp(750 / rvd_post_dmgModifier, 3000 / rvd_post_dmgModifier, shockdmg);
+			float shock = Math.Lerp( 50, 100, shockTemp );
+			
 			for( int i =0; i < CrewSize(); i++ )
 			{
 				Human crew = CrewMember( i );
@@ -75,14 +85,6 @@ modded class CarScript
 					player.SetAllowDamage(true);
 					if ( rvd_post_addPlayerShock ) //Add shock to players so they become unconsius 
 					{
-						//deal shock to player
-						float shockdmg = dmg;
-						if ( !rvd_post_subtractmindmg )
-						{
-							shockdmg = rvd_orgdmg;
-						}
-						float shockTemp = Math.InverseLerp(750 / rvd_post_dmgModifier, 3000 / rvd_post_dmgModifier, shockdmg);
-						float shock = Math.Lerp( 50, 100, shockTemp );
 						player.AddHealth("", "Shock", -shock );
 					}
 					
