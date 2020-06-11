@@ -19,6 +19,7 @@ class ReduceVehicleDamageSettings
         bool dmgBeforeExplode = true;
 	
         bool protectPlayerFromDmg = false;
+	bool addPlayerShock = false;
 	
 	bool debugLogs = false;
 
