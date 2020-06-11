@@ -16,6 +16,7 @@ class ReduceVehicleDamageSettings
         float helidmgModifier = 0.7;
 	float helimindmg = 1300;
 	bool noexplodeifoff = false;
+        bool dmgBeforeExplode = true;
 	
 	bool debugLogs = false;
 
@@ -38,6 +39,7 @@ class ReduceVehicleDamageSettings
 			data.helidmgModifier = data.dmgModifier;
 		        data.helimindmg = data.mindmg;
 			data.noexplodeifoff = false;
+                        data.dmgBeforeExplode = false;
 			data.debugLogs = false;
              		JsonFileLoader<ReduceVehicleDamageSettings>.JsonSaveFile(ReduceVehicleDamagePATH, data);
 		}
