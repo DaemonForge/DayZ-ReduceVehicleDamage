@@ -11,7 +11,7 @@ modded class CarScript
 		        bool rvd_nodmgoff = ReduceVehicleDamageSettings.Get().nodmgifoff;
 			
 			bool rvd_protectPlayerFromDmg = ReduceVehicleDamageSettings.Get().protectPlayerFromDmg;
-			bool rvd_addShock = ReduceVehicleDamageSettings.Get().addPlayerShock;
+			bool rvd_addPlayerShock = ReduceVehicleDamageSettings.Get().addPlayerShock;
 		        bool rvd_debug = ReduceVehicleDamageSettings.Get().debugLogs;
 
 			if ( rvd_debug && dmg > 10 ){ Print("[ReduceVehicleDamage] Called CarScript OnContact - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
@@ -41,7 +41,7 @@ modded class CarScript
 			}
 			data.Impulse = dmg / m_dmgContactCoef;
 			if ( rvd_debug && dmg > 10 ) { Print("[ReduceVehicleDamage] Finished CarScript OnContact - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
-			if ( rvd_protectPlayerFromDmg && dmg > 150)
+			if ( rvd_protectPlayerFromDmg && dmg > 750)
 			{  // Add God Mod to pevent player damage
 				addedGodMod = true;
 				for( int i =0; i < CrewSize(); i++ )
@@ -70,7 +70,7 @@ modded class CarScript
 				if ( Class.CastTo(player, crew ) )
 				{
 					player.SetAllowDamage(true);
-					if ( rvd_addShock )
+					if ( rvd_addPlayerShock )
 					{
 						//deal shock to player
 						float shockTemp = Math.InverseLerp(750 / rvd_dmgModifier, 3000 / rvd_dmgModifier, dmg);
