@@ -48,7 +48,7 @@ modded class CarScript
                               float tenPercent = GetMaxHealth() * 0.1;
                               AddHealth( tenPercent );
                               // Might need this 
-                              //GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).remove(GetGame().ObjectDelete, this)
+                              //GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).Remove(GetGame().ObjectDelete, this)
                         }
                 }
 		        
