@@ -15,14 +15,14 @@ modded class CarScript
 			bool rvd_protectPlayerFromDmg = ReduceVehicleDamageSettings.Get().protectPlayerFromDmg;
 		        bool rvd_debug = ReduceVehicleDamageSettings.Get().debugLogs;
 
-			if ( rvd_debug && dmg > 10 ){ Print("[ReduceVehicleDamage] Called CarScript OnContact - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
+			if ( rvd_debug && dmg > 150 ){ Print("[ReduceVehicleDamage] Called CarScript OnContact - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
 
 			if ( dmg < rvd_mindmg){
-				if( rvd_debug && dmg > 10 ){ Print("[ReduceVehicleDamage] Finished CarScript OnContact - Damage is less than min - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
+				if( rvd_debug && dmg > 150 ){ Print("[ReduceVehicleDamage] Finished CarScript OnContact - Damage is less than min - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
 				return;
 			}
 			if (!EngineIsOn() && rvd_nodmgoff){
-				if ( rvd_debug && dmg > 10 ){ Print("[ReduceVehicleDamage] Finished CarScript OnContact - Engine is off - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
+				if ( rvd_debug && dmg > 150 ){ Print("[ReduceVehicleDamage] Finished CarScript OnContact - Engine is off - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
 				return;
 			}
 			if (rvd_subtractmindmg)
@@ -40,26 +40,28 @@ modded class CarScript
 				return;
 			}
 			data.Impulse = dmg / m_dmgContactCoef;
-			if ( rvd_debug && dmg > 10 ) { Print("[ReduceVehicleDamage] Finished CarScript OnContact - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
+			if ( rvd_debug && dmg > 150 ) { Print("[ReduceVehicleDamage] Finished CarScript OnContact - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
 			if ( rvd_protectPlayerFromDmg && dmg > 750)
 			{  // Add God Mod to pevent player damage
 				addedGodMod = true;
 				for( int i =0; i < CrewSize(); i++ )
 				{
-					Human crew = CrewMember( i );
-					if ( !crew )
+					Human pre_crew = CrewMember( i );
+					if ( !pre_crew )
 						continue;
 
-					PlayerBase player;
-					if ( Class.CastTo(player, crew ) )
+					PlayerBase pre_player;
+					if ( Class.CastTo(pre_player, pre_crew ) )
 					{
-						player.SetAllowDamage(false);
+						if ( rvd_debug && dmg > 150 ) { Print("[ReduceVehicleDamage] Adding God Mod to " + pre_player.GetIdentity().GetName() + " - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
+						pre_player.SetAllowDamage(false);
 					}
 				}
 			}
 		}
 		super.OnContact(zoneName, localPos, other, data);
-		if ( addedGodMod ) { //Remove God mod from players
+		if ( addedGodMod ) 
+		{ //Remove God mod from players
 			bool rvd_post_addPlayerShock = ReduceVehicleDamageSettings.Get().addPlayerShock;
 		        float rvd_post_dmgModifier = ReduceVehicleDamageSettings.Get().dmgModifier;
 		        bool rvd_post_subtractmindmg = ReduceVehicleDamageSettings.Get().subtractmindmg;
@@ -73,35 +75,36 @@ modded class CarScript
 			float shockTemp = Math.InverseLerp(750 / rvd_post_dmgModifier, 3000 / rvd_post_dmgModifier, shockdmg);
 			float shock = Math.Lerp( 50, 100, shockTemp );
 			
-			for( int i =0; i < CrewSize(); i++ )
+			for( int j =0; j < CrewSize(); j++ )
 			{
-				Human crew = CrewMember( i );
-				if ( !crew )
+				Human post_crew = CrewMember( j );
+				if ( !post_crew )
 					continue;
 
-				PlayerBase player;
-				if ( Class.CastTo(player, crew ) )
+				PlayerBase post_player;
+				if ( Class.CastTo(post_player, post_crew ) )
 				{
-					player.SetAllowDamage(true);
+					if ( rvd_debug && dmg > 150 ) { Print("[ReduceVehicleDamage] Removing God Mod from " + post_player.GetIdentity().GetName() + " - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
+						post_player.SetAllowDamage(true);
 					if ( rvd_post_addPlayerShock ) //Add shock to players so they become unconsius 
 					{
-						player.AddHealth("", "Shock", -shock );
+						post_player.AddHealth("", "Shock", -shock );
 					}
 					
 				}
 			}
 		}
-                if ( GetGame().IsServer() && zoneName != "" && m_dmgContactCoef > 0 && data.Impulse > 0 && IsRuined() )
+        if ( GetGame().IsServer() && zoneName != "" && m_dmgContactCoef > 0 && data.Impulse > 0 && IsRuined() )
 		{	
-		        float rvd_post_perventcarruined = ReduceVehicleDamageSettings.Get().perventCarRuined;
-                        float post_dmg = data.Impulse * m_dmgContactCoef;
-                        if ( post_dmg >= 750 && rvd_post_perventcarruined ){
-                              float fivePercent = GetMaxHealth() * 0.05;
-                              AddHealth( "", "", fivePercent );
-                              // Might need this 
-                              //GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).Remove(GetGame().ObjectDelete, this)
-                        }
-                }
+			float rvd_post_perventcarruined = ReduceVehicleDamageSettings.Get().perventCarRuined;
+	        float post_dmg = data.Impulse * m_dmgContactCoef;
+	        if ( post_dmg >= 750 && rvd_post_perventcarruined ){
+			float fivePercent = GetMaxHealth() * 0.05;
+			AddHealth( "", "", fivePercent );		
+			// Might need this 
+			//GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).Remove(GetGame.ObjectDelete(this));
+			}
+        }
 		        
 	}
 
