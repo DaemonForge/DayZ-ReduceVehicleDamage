@@ -43,6 +43,7 @@ modded class ExpansionHelicopterScript
 			
 			if ( rvd_dmgBeforeExplode && extra.Impulse > m_BodyMass * 11 * 2 && GetVelocity(this).Length() > 2.5)
 			{
+				dmg  = dmg *rvd_dmgModifier; //Reduceing Damage again to pervent too much damage
 				AddHealth( "", "Health", -dmg);
 				float newHealth = GetHealth("", "");
 				float fivePercent = GetMaxHealth() * 0.05;

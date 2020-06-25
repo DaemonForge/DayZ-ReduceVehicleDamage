@@ -18,9 +18,6 @@ class ReduceVehicleDamageSettings
 	bool noExplodeIfOff = false;
 	bool dmgBeforeExplode = true;
 	
-	bool protectPlayerFromDmg = false;
-	bool addPlayerShock = false;
-	
 	bool debugLogs = false;
 
 	
@@ -43,8 +40,6 @@ class ReduceVehicleDamageSettings
 			data.heliMinDmg = data.mindmg;
 			data.noExplodeIfOff = false;
 			data.dmgBeforeExplode = false;
-			data.protectPlayerFromDmg = false;
-			data.addPlayerShock = false;
 			data.debugLogs = false;
 			JsonFileLoader<ReduceVehicleDamageSettings>.JsonSaveFile(ReduceVehicleDamagePATH, data);
 		}
