@@ -13,15 +13,15 @@ modded class ExpansionHelicopterScript
 
 			float dmg = extra.Impulse * m_dmgContactCoef;
 			
-			if ( rvd_debug && dmg > 10 ){ Print("[ReduceVehicleDamage] Called ExpansionHelicopterScript EOnContact - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + extra.Impulse); }
+			if ( rvd_debug && dmg > 150 ){ Print("[ReduceVehicleDamage] Called ExpansionHelicopterScript EOnContact - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + extra.Impulse); }
 
 			float rvd_orgdmg = dmg;
 			if ( dmg < rvd_mindmg){
-				if ( rvd_debug  && dmg > 10 ){ Print("[ReduceVehicleDamage] Finished ExpansionHelicopterScript EOnContact - Damage Less than Min Damage - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + extra.Impulse); }
+				if ( rvd_debug  && dmg > 150 ){ Print("[ReduceVehicleDamage] Finished ExpansionHelicopterScript EOnContact - Damage Less than Min Damage - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + extra.Impulse); }
 				return;
 			}
 			if (!EngineIsOn() && rvd_nodmgoff){
-				if ( rvd_debug && dmg > 10 ){ Print("[ReduceVehicleDamage] Finished ExpansionHelicopterScript EOnContact - Engine is off - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + extra.Impulse); }
+				if ( rvd_debug && dmg > 150 ){ Print("[ReduceVehicleDamage] Finished ExpansionHelicopterScript EOnContact - Engine is off - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + extra.Impulse); }
 				return;
 			}
 			if (rvd_subtractmindmg)
@@ -56,7 +56,7 @@ modded class ExpansionHelicopterScript
 				}
 			}
 			
-			if ( rvd_debug && dmg > 10){ Print("[ReduceVehicleDamage] Finished ExpansionHelicopterScript EOnContact - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + extra.Impulse); }
+			if ( rvd_debug && dmg > 150){ Print("[ReduceVehicleDamage] Finished ExpansionHelicopterScript EOnContact - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + extra.Impulse); }
 		}
 		
 		super.EOnContact( other, extra);
