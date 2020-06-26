@@ -7,14 +7,14 @@ class ReduceVehicleDamageSettings
     private static ref ReduceVehicleDamageSettings settings;
 
 	//Default Values
-        float dmgModifier = 0.8;
+    float dmgModifier = 0.8;
 	float mindmg = 1350;
 	bool subtractmindmg = true;
 	bool nodmgifoff = false;
 	bool perventCarRuined = false;
 	
 	float heliDmgModifier = 0.7;
-	float heliMinDmg = 1300;
+	float heliMinDmg = 900;
 	bool noExplodeIfOff = false;
 	bool dmgBeforeExplode = true;
 	
