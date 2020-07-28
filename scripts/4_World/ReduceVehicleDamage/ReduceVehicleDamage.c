@@ -14,7 +14,7 @@ modded class CarScript
 			
 		        bool rvd_debug = ReduceVehicleDamageSettings.Get().debugLogs;
 
-			if ( rvd_debug && dmg > 150 ){ Print("[ReduceVehicleDamage] Called CarScript OnContact - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
+			//if ( rvd_debug && dmg > 150 ){ Print("[ReduceVehicleDamage] Called CarScript OnContact - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
 
 			if ( dmg < rvd_mindmg){
 				if( rvd_debug && dmg > 150 ){ Print("[ReduceVehicleDamage] Finished CarScript OnContact - Damage is less than min - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
@@ -59,7 +59,7 @@ modded class CarScript
 		if ( GetGame().IsServer() )
 		{
 			bool rvd_noexplodeifoff = ReduceVehicleDamageSettings.Get().noExplodeIfOff;
-			if (!EngineIsOn() && rvd_noexplodeifoff)
+			if (!EngineIsOn() && rvd_noexplodeifoff && !IsRuined())
 			{
 				return;
 			}

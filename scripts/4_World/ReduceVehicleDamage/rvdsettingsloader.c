@@ -7,6 +7,7 @@ class ReduceVehicleDamageSettings
     private static ref ReduceVehicleDamageSettings settings;
 
 	//Default Values
+	string configVersion = "3";
     float dmgModifier = 0.8;
 	float mindmg = 1350;
 	bool subtractmindmg = true;
@@ -17,6 +18,7 @@ class ReduceVehicleDamageSettings
 	float heliMinDmg = 900;
 	bool noExplodeIfOff = false;
 	bool dmgBeforeExplode = true;
+	bool autoHeliStablization = true;
 		
 	bool debugLogs = false;
 
@@ -34,15 +36,20 @@ class ReduceVehicleDamageSettings
         {
             JsonFileLoader<ReduceVehicleDamageSettings>.JsonLoadFile(ReduceVehicleDamagePATH, data);
             initialized = true;
-		if (!data.heliDmgModifier){ //Update settings file with new settings
-			data.perventCarRuined = false;
-			data.heliDmgModifier = data.dmgModifier;
-			data.heliMinDmg = data.mindmg;
-			data.noExplodeIfOff = false;
-			data.dmgBeforeExplode = false;
-			data.debugLogs = false;
-			JsonFileLoader<ReduceVehicleDamageSettings>.JsonSaveFile(ReduceVehicleDamagePATH, data);
-		}
+			if (!data.heliDmgModifier){ //Update settings file with new settings
+				data.perventCarRuined = false;
+				data.heliDmgModifier = data.dmgModifier;
+				data.heliMinDmg = data.mindmg;
+				data.noExplodeIfOff = false;
+				data.dmgBeforeExplode = false;
+				data.debugLogs = false;
+				JsonFileLoader<ReduceVehicleDamageSettings>.JsonSaveFile(ReduceVehicleDamagePATH, data);
+			}
+			if (!data.configVersion){
+				data.configVersion = "3";
+				data.autoHeliStablization = false;
+				JsonFileLoader<ReduceVehicleDamageSettings>.JsonSaveFile(ReduceVehicleDamagePATH, data);
+			}
         }
         else //If config file doesn't exsit create the file
         {
