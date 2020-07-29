@@ -11,18 +11,20 @@ modded class CarScript
 		        float rvd_mindmg = ReduceVehicleDamageSettings.Get().mindmg;
 		        bool rvd_subtractmindmg = ReduceVehicleDamageSettings.Get().subtractmindmg;
 		        bool rvd_nodmgoff = ReduceVehicleDamageSettings.Get().nodmgifoff;
-			
+				
 		        bool rvd_debug = ReduceVehicleDamageSettings.Get().debugLogs;
-
+				if (rvd_mindmg < 150){ //since the default Min Damage is 150 want to make sure I don't cause issues
+					rvd_mindmg = 150;
+				}
 			//if ( rvd_debug && dmg > 150 ){ Print("[ReduceVehicleDamage] Called CarScript OnContact - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
 
 			if ( dmg < rvd_mindmg){
 				if( rvd_debug && dmg > 150 ){ Print("[ReduceVehicleDamage] Finished CarScript OnContact - Damage is less than min - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
-				return;
+				dmg = 50;
 			}
 			if (!EngineIsOn() && rvd_nodmgoff){
 				if ( rvd_debug && dmg > 150 ){ Print("[ReduceVehicleDamage] Finished CarScript OnContact - Engine is off - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
-				return;
+				dmg = 50;
 			}
 			if (rvd_subtractmindmg)
 			{
@@ -36,10 +38,10 @@ modded class CarScript
 			if (dmg < 1) 
 			{
 				if ( rvd_debug ){ Print("[ReduceVehicleDamage] Finished CarScript OnContact - Damage Less than one - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
-				return;
+				dmg = 50;
 			}
 			data.Impulse = dmg / m_dmgContactCoef;
-			if ( rvd_debug && dmg > 150 ) { Print("[ReduceVehicleDamage] Finished CarScript OnContact - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
+			//if ( rvd_debug && dmg > 150 ) { Print("[ReduceVehicleDamage] Finished CarScript OnContact - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
 		}
 		super.OnContact(zoneName, localPos, other, data);
         if ( GetGame().IsServer() && zoneName != "" && m_dmgContactCoef > 0 && data.Impulse > 0 && IsRuined() )

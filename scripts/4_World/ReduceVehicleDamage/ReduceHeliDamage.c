@@ -116,11 +116,11 @@ modded class ExpansionHelicopterScript
 			float rvd_orgdmg = dmg;
 			if ( dmg < rvd_mindmg){
 				//if ( rvd_debug  && dmg > 150 ){ Print("[ReduceVehicleDamage] Finished ExpansionHelicopterScript EOnContact - Damage Less than Min Damage - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + extra.Impulse); }
-				return;
+				dmg = 50;
 			}
 			if (!EngineIsOn() && rvd_nodmgoff){
 				//if ( rvd_debug && dmg > 150 ){ Print("[ReduceVehicleDamage] Finished ExpansionHelicopterScript EOnContact - Engine is off - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + extra.Impulse); }
-				return;
+				dmg = 50;
 			}
 			if (rvd_subtractmindmg)
 			{
@@ -138,17 +138,19 @@ modded class ExpansionHelicopterScript
 			}
 			extra.Impulse = dmg / m_dmgContactCoef;
 			bool rvd_dmgBeforeExplode = ReduceVehicleDamageSettings.Get().dmgBeforeExplode;
-			
-			if ( rvd_dmgBeforeExplode && extra.Impulse > m_BodyMass * 11 * 2 && GetVelocity(this).Length() > 2.5 && !rvd_nodmgoff)
+			bool rvd_dmgcondition = (rvd_nodmgoff && !EngineIsOn());
+			if ( rvd_dmgBeforeExplode && extra.Impulse > m_BodyMass * 11 * 2 && GetVelocity(this).Length() > 2.5 && !rvd_dmgcondition && dmg > 50)
 			{
-				dmg  = dmg * 0.01 * rvd_dmgModifier; //Reduceing Damage again to pervent too much damage
+				dmg  = dmg * 0.1 * rvd_dmgModifier; //Reduceing Damage again to pervent too much damage
 				AddHealth( "", "Health", -dmg);
 				float newHealth = GetHealth("", "");
 				float fivePercent = GetMaxHealth() * 0.05;
 				if ( newHealth > fivePercent )
 				{
 					if ( rvd_debug){ Print("[ReduceVehicleDamage] Finished ExpansionHelicopterScript EOnContact - Vechile took " + dmg + " damage - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + extra.Impulse); }
-					return;
+					dmg = 50;
+					extra.Impulse = dmg / m_dmgContactCoef;
+
 				}else{
 					if ( rvd_debug){ Print("[ReduceVehicleDamage] ExpansionHelicopterScript EOnContact - Vechile took " + dmg + " damage continuing to super - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + extra.Impulse); }
 				}
