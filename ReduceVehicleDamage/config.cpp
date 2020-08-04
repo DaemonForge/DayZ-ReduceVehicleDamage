@@ -6,6 +6,7 @@ class CfgPatches
 		weapons[]={};
 		requiredVersion=0.1;
 		requiredAddons[]={
+			"DZ_Data",
 			"DayZExpansion_Scripts"
 		};
 	};
