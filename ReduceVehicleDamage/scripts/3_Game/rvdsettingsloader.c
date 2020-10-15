@@ -7,7 +7,7 @@ class ReduceVehicleDamageSettings
     private static ref ReduceVehicleDamageSettings settings;
 
 	//Default Values
-	string configVersion = "3";
+	string configVersion = "4";
     float dmgModifier = 0.8;
 	float mindmg = 1350;
 	bool subtractmindmg = true;
@@ -18,7 +18,9 @@ class ReduceVehicleDamageSettings
 	float heliMinDmg = 900;
 	bool noExplodeIfOff = false;
 	bool dmgBeforeExplode = true;
-	bool autoHeliStablization = true;
+	bool autoHeliStablization = false;
+	
+	bool ResetLifeTimeOnStop = true;
 		
 	bool debugLogs = false;
 
@@ -48,6 +50,11 @@ class ReduceVehicleDamageSettings
 			if (!data.configVersion){
 				data.configVersion = "3";
 				data.autoHeliStablization = false;
+				JsonFileLoader<ReduceVehicleDamageSettings>.JsonSaveFile(ReduceVehicleDamagePATH, data);
+			}
+			if (data.configVersion == "3"){
+				data.configVersion = 4;
+				ResetLifeTimeOnStop = true;
 				JsonFileLoader<ReduceVehicleDamageSettings>.JsonSaveFile(ReduceVehicleDamagePATH, data);
 			}
         }

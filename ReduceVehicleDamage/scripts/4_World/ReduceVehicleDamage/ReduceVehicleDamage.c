@@ -1,5 +1,21 @@
 modded class CarScript extends Car
 {
+	
+	//! Gets called everytime the engine stops.
+	override void OnEngineStop()
+	{
+		super.OnEngineStop();
+		if (GetGame().IsServer() && ReduceVehicleDamageSettings.Get().ResetLifeTimeOnStop){
+			bool rvd_debug = ReduceVehicleDamageSettings.Get().debugLogs;
+			float OldLifeTime = GetLifetime();
+			float MaxLifetime = GetLifetimeMax();
+			this.SetLifetime(MaxLifetime);
+			float NewLifeTime = GetLifetime();
+			if( rvd_debug ){ Print("[ReduceVehicleDamage] OnEngineStop - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - OldLifeTime: " + OldLifeTime + " - MaxLifetime: " + MaxLifetime + " - NewLifeTime: " + NewLifeTime); }
+		}
+	}
+	
+	
 	override void OnContact( string zoneName, vector localPos, IEntity other, Contact data )
 	{
 		bool addedGodMod = false;
