@@ -20,7 +20,7 @@ class ReduceVehicleDamageSettings
 	bool dmgBeforeExplode = true;
 	bool autoHeliStablization = false;
 	
-	bool ResetLifeTimeOnStop = true;
+	bool ResetLifeTimeOnStart = true;
 		
 	bool debugLogs = false;
 
@@ -54,7 +54,7 @@ class ReduceVehicleDamageSettings
 			}
 			if (data.configVersion == "3"){
 				data.configVersion = 4;
-				ResetLifeTimeOnStop = true;
+				ResetLifeTimeOnStart = true;
 				JsonFileLoader<ReduceVehicleDamageSettings>.JsonSaveFile(ReduceVehicleDamagePATH, data);
 			}
         }

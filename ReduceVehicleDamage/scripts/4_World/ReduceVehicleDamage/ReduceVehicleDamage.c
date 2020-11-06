@@ -2,19 +2,18 @@ modded class CarScript extends Car
 {
 	
 	//! Gets called everytime the engine stops.
-	override void OnEngineStop()
+	override void OnEngineStart()
 	{
-		super.OnEngineStop();
-		if (GetGame().IsServer() && ReduceVehicleDamageSettings.Get().ResetLifeTimeOnStop){
+		super.OnEngineStart();
+		if (GetGame().IsServer() && ReduceVehicleDamageSettings.Get().ResetLifeTimeOnStart){
 			bool rvd_debug = ReduceVehicleDamageSettings.Get().debugLogs;
 			float OldLifeTime = GetLifetime();
 			float MaxLifetime = GetLifetimeMax();
 			this.SetLifetime(MaxLifetime);
 			float NewLifeTime = GetLifetime();
-			if( rvd_debug ){ Print("[ReduceVehicleDamage] OnEngineStop - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - OldLifeTime: " + OldLifeTime + " - MaxLifetime: " + MaxLifetime + " - NewLifeTime: " + NewLifeTime); }
+			if ( rvd_debug ){ Print("[ReduceVehicleDamage] OnEngineStop - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - OldLifeTime: " + OldLifeTime + " - MaxLifetime: " + MaxLifetime + " - NewLifeTime: " + NewLifeTime); }
 		}
 	}
-	
 	
 	override void OnContact( string zoneName, vector localPos, IEntity other, Contact data )
 	{
@@ -35,7 +34,7 @@ modded class CarScript extends Car
 			//if ( rvd_debug && dmg > 150 ){ Print("[ReduceVehicleDamage] Called CarScript OnContact - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
 
 			if ( dmg < rvd_mindmg){
-				if( rvd_debug && dmg > 150 ){ Print("[ReduceVehicleDamage] Finished CarScript OnContact - Damage is less than min - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
+				if ( rvd_debug && dmg > 150 ){ Print("[ReduceVehicleDamage] Finished CarScript OnContact - Damage is less than min - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
 				dmg = 50;
 			}
 			if (!EngineIsOn() && rvd_nodmgoff){
@@ -60,6 +59,7 @@ modded class CarScript extends Car
 			//if ( rvd_debug && dmg > 150 ) { Print("[ReduceVehicleDamage] Finished CarScript OnContact - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - Impulse is: " + data.Impulse); }
 		}
 		super.OnContact(zoneName, localPos, other, data);
+		
         if ( GetGame().IsServer() && zoneName != "" && m_dmgContactCoef > 0 && data.Impulse > 0 && IsRuined() )
 		{	
 			float rvd_post_perventcarruined = ReduceVehicleDamageSettings.Get().perventCarRuined;
@@ -68,8 +68,7 @@ modded class CarScript extends Car
 				float fivePercent = GetMaxHealth() * 0.05;
 				AddHealth( "", "", fivePercent );
 			}
-        }
-		        
+        }   
 	}
 
 	override void Explode( int damageType, string ammoType = "" )
