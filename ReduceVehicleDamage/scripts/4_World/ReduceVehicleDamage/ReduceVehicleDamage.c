@@ -1,7 +1,7 @@
 modded class CarScript extends Car
 {
 	
-	//! Gets called everytime the engine stops.
+	//! Gets called everytime the engine starts
 	override void OnEngineStart()
 	{
 		super.OnEngineStart();
@@ -11,7 +11,7 @@ modded class CarScript extends Car
 			float MaxLifetime = GetLifetimeMax();
 			this.SetLifetime(MaxLifetime);
 			float NewLifeTime = GetLifetime();
-			if ( rvd_debug ){ Print("[ReduceVehicleDamage] OnEngineStop - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - OldLifeTime: " + OldLifeTime + " - MaxLifetime: " + MaxLifetime + " - NewLifeTime: " + NewLifeTime); }
+			if ( rvd_debug ){ Print("[ReduceVehicleDamage] OnEngineStart - Vechile Name: " + GetDisplayName() + " - Position: " + GetPosition() + " - OldLifeTime: " + OldLifeTime + " - MaxLifetime: " + MaxLifetime + " - NewLifeTime: " + NewLifeTime); }
 		}
 	}
 	
