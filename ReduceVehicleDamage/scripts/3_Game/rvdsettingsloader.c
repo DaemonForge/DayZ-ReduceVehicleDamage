@@ -53,8 +53,8 @@ class ReduceVehicleDamageSettings
 				JsonFileLoader<ReduceVehicleDamageSettings>.JsonSaveFile(ReduceVehicleDamagePATH, data);
 			}
 			if (data.configVersion == "3"){
-				data.configVersion = 4;
-				ResetLifeTimeOnStart = true;
+				data.configVersion = "4";
+				data.ResetLifeTimeOnStart = true;
 				JsonFileLoader<ReduceVehicleDamageSettings>.JsonSaveFile(ReduceVehicleDamagePATH, data);
 			}
         }
